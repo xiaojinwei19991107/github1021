@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atguigu.dao.SetmealDao">
+
+    <select id="findPage" parameterType="string" resultType="setmeal">
+        select * from t_setmeal
+        <where>
+            <if test="value!=null and value.length>0">
+                name like concat("%",#{value},"%") or code=#{value} or helpCode=#{value}
+            </if>
+        </where>
+    </select>
+    <insert id="addsetmealAndgroup" parameterType="map">
+        insert into t_setmeal_travelgroup(setmeal_id,travelgroup_id) values(#{setmealid},#{groupid})
+    </insert>
+    <insert id="add" parameterType="setmeal" keyProperty="id" useGeneratedKeys="true">
+        insert into t_setmeal(name,code,helpCode,sex,age,price,remark,attention,img) values(#{name},#{code},#{helpCode},#{sex},#{age},#{price},#{remark},#{attention},#{img})
+    </insert>
+    <select id="getSetmeal" resultType="setmeal">
+        select * from t_setmeal
+    </select>
+    <resultMap id="setmealResultMap" type="setmeal">
+        <id property="id" column="id"></id>
+        <result property="name" column="name"></result>
+        <result property="code" column="code"></result>
+        <result property="helpCode" column="helpCode"></result>
+        <result property="sex" column="sex"></result>
+        <result property="age" column="age"></result>
+        <result property="price" column="price"></result>
+        <result property="remark" column="remark"></result>
+        <result property="attention" column="attention"></result>
+        <result property="img" column="img"></result>
+        <collection property="travelGroups" column="id" select="com.atguigu.dao.TravelgroupDao.findTravelGroupById"></collection>
+    </resultMap>
+    <select id="findById" parameterType="integer" resultMap="setmealResultMap">
+        select * from t_setmeal where id=#{id}
+    </select>
+    <select id="getsetmealById" parameterType="integer" resultType="setmeal">
+        select * from t_setmeal where id=#{id}
+    </select>
+    <select id="getSetmealAndValue" resultType="map">
+        SELECT s.name name,COUNT(o.id) value FROM t_setmeal s RIGHT JOIN t_order o ON s.id=o.setmeal_id GROUP BY s.name
+    </select>
+
+</mapper>

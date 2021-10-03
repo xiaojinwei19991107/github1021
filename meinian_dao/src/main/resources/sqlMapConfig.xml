@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--数据库的配置文件，分页插件
+    ctrl + alt + 空格：提示，补全
+    PageHelper：数据库的分页插件
+    property name="dialect":设置分页插件的方言
+    广东：粤语，武汉，武汉话，湖北，湖北方言
+    -->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageHelper">
+            <property name="dialect" value="mysql"></property>
+        </plugin>
+    </plugins>
+
+
+</configuration>

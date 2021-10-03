@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atguigu.dao.MemberDao">
+    <select id="findmemberBytelephone" parameterType="string" resultType="member">
+        select * from t_member where phoneNUmber=#{telephone}
+    </select>
+    <insert id="add" parameterType="member" keyProperty="id" useGeneratedKeys="true">
+        insert into t_member(fileNumber,name,sex,idCard,phoneNumber,regTime,password,email,birthday,remark) values(#{fileNumber},#{name},#{sex},#{idCard},#{phoneNumber},#{regTime},#{password},#{email},#{birthday},#{remark})
+    </insert>
+    <select id="findCountByRegTime" parameterType="string" resultType="integer">
+        select count(*) from t_member where regTime &lt;= #{regTime}
+    </select>
+    <select id="findNewMemberByToday" parameterType="date" resultType="integer">
+        select count(*) from t_member where regTime=#{reportDate}
+    </select>
+    <select id="findAll" resultType="integer">
+        select count(*) from t_member
+    </select>
+    <select id="findthisWeekNewMember" parameterType="date" resultType="integer">
+        select count(*) from t_member where regTime &lt;= #{thisWeekMonday}
+    </select>
+    <select id="findthisMonthNewMember" parameterType="date" resultType="integer">
+        select count(*) from t_member where regTime &gt;= #{firstDay4ThisMonth}
+    </select>
+</mapper>
